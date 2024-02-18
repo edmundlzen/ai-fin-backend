@@ -22,7 +22,7 @@ export class FinancialGoalResolver {
   }
 
   @Query(() => FinancialGoal, { name: 'financialGoal' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.financialGoalService.findOne(id);
   }
 
@@ -38,7 +38,7 @@ export class FinancialGoalResolver {
   }
 
   @Mutation(() => FinancialGoal)
-  removeFinancialGoal(@Args('id', { type: () => Int }) id: number) {
+  removeFinancialGoal(@Args('id', { type: () => String }) id: string) {
     return this.financialGoalService.remove(id);
   }
 }
