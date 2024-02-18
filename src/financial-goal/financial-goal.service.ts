@@ -1,26 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFinancialGoalInput } from './dto/create-financial-goal.input';
 import { UpdateFinancialGoalInput } from './dto/update-financial-goal.input';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class FinancialGoalService {
+  constructor(private prisma: PrismaService) {}
+
   create(createFinancialGoalInput: CreateFinancialGoalInput) {
-    return 'This action adds a new financialGoal';
+    return this.prisma.financialGoal.create({
+      data: {
+        ...createFinancialGoalInput,
+        user: {
+          connect: { id: 'SOME_USER_ID' },
+        },
+      },
+    });
   }
 
   findAll() {
-    return `This action returns all financialGoal`;
+    return this.prisma.financialGoal.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} financialGoal`;
+  findOne(id: string) {
+    return this.prisma.financialGoal.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, updateFinancialGoalInput: UpdateFinancialGoalInput) {
-    return `This action updates a #${id} financialGoal`;
+  update(id: string, updateFinancialGoalInput: UpdateFinancialGoalInput) {
+    return this.prisma.financialGoal.update({
+      where: { id },
+      data: {
+        ...updateFinancialGoalInput,
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} financialGoal`;
+  remove(id: string) {
+    return this.prisma.financialGoal.delete({
+      where: { id },
+    });
   }
 }
