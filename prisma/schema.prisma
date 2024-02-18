@@ -14,8 +14,10 @@ model User {
   username       String
   phone          String
   birth_year     Int
+  experience     Int
   user_info      UserInfo?
   financial_goal FinancialGoal[]
+  vouchers       Voucher[]
 }
 
 model FinancialGoal {
@@ -28,6 +30,16 @@ model FinancialGoal {
   amount                    Int
   monthly_contribution_goal Int
   contribution              Contribution[]
+}
+
+// Many to Many, one voucher can be used by many users and one user can use many vouchers
+model Voucher {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+  name       String
+  code       String
+  terms      String
+  users      User[]
 }
 
 model Contribution {
