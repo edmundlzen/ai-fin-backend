@@ -14,7 +14,7 @@ model User {
   username       String
   phone          String
   birth_year     Int
-  experience     Int
+  experience     Int             @default(0)
   user_info      UserInfo?
   financial_goal FinancialGoal[]
   vouchers       Voucher[]
