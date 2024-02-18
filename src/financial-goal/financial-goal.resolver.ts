@@ -9,7 +9,10 @@ export class FinancialGoalResolver {
   constructor(private readonly financialGoalService: FinancialGoalService) {}
 
   @Mutation(() => FinancialGoal)
-  createFinancialGoal(@Args('createFinancialGoalInput') createFinancialGoalInput: CreateFinancialGoalInput) {
+  createFinancialGoal(
+    @Args('createFinancialGoalInput')
+    createFinancialGoalInput: CreateFinancialGoalInput,
+  ) {
     return this.financialGoalService.create(createFinancialGoalInput);
   }
 
@@ -24,8 +27,14 @@ export class FinancialGoalResolver {
   }
 
   @Mutation(() => FinancialGoal)
-  updateFinancialGoal(@Args('updateFinancialGoalInput') updateFinancialGoalInput: UpdateFinancialGoalInput) {
-    return this.financialGoalService.update(updateFinancialGoalInput.id, updateFinancialGoalInput);
+  updateFinancialGoal(
+    @Args('updateFinancialGoalInput')
+    updateFinancialGoalInput: UpdateFinancialGoalInput,
+  ) {
+    return this.financialGoalService.update(
+      updateFinancialGoalInput.id,
+      updateFinancialGoalInput,
+    );
   }
 
   @Mutation(() => FinancialGoal)
