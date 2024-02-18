@@ -8,13 +8,34 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  email         String    @unique
-  password_hash String
-  username      String
-  phone         String
-  birth_year    Int
-  user_info     UserInfo?
+  id             String          @id @default(uuid())
+  email          String          @unique
+  password_hash  String
+  username       String
+  phone          String
+  birth_year     Int
+  user_info      UserInfo?
+  financial_goal FinancialGoal[]
+}
+
+model FinancialGoal {
+  id                        String         @id @default(uuid())
+  created_at                DateTime       @default(now())
+  user                      User           @relation(fields: [userId], references: [id])
+  userId                    String
+  emoji                     String
+  name                      String
+  amount                    Int
+  monthly_contribution_goal Int
+  contribution              Contribution[]
+}
+
+model Contribution {
+  id              String        @id @default(uuid())
+  created_at      DateTime      @default(now())
+  financialGoal   FinancialGoal @relation(fields: [financialGoalId], references: [id])
+  financialGoalId String
+  amount          Int
 }
 
 model UserInfo {
