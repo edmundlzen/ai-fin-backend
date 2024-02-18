@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { User as UserPrismaType } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 
@@ -21,4 +21,7 @@ export class User implements UserPrismaType {
 
   @Exclude()
   password_hash: string;
+
+  @Field(() => Int)
+  experience: number;
 }
