@@ -6,3 +6,72 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password_hash String
+  username      String
+  phone         String
+  birth_year    Int
+  user_info     UserInfo?
+}
+
+model UserInfo {
+  userId                     String                   @id @unique
+  user                       User                     @relation(fields: [userId], references: [id])
+  annual_income              AnnualIncome
+  estimated_liabilities      EstimatedLiabilities
+  estimated_monthly_expenses EstimatedMonthlyExpenses
+  invested_before            Boolean
+  risk_tolerance             RiskTolerance
+  expected_annual_return     ExpectedAnnualReturn
+  investment_horizon         InvestmentHorizon
+}
+
+enum AnnualIncome {
+  LessThan10K
+  From10KTo25K
+  From25KTo50K
+  From50KTo100K
+  From100KTo200K
+  MoreThan200K
+}
+
+enum EstimatedLiabilities {
+  LessThan10K
+  From10KTo25K
+  From25KTo50K
+  From50KTo100K
+  From100KTo200K
+  MoreThan200K
+}
+
+enum EstimatedMonthlyExpenses {
+  LessThan1K
+  From1KTo2K
+  From2KTo3K
+  From3KTo4K
+  From4KTo5K
+  MoreThan5K
+}
+
+enum RiskTolerance {
+  Low
+  Medium
+  High
+}
+
+enum ExpectedAnnualReturn {
+  LessThan5Percent
+  From5To10Percent
+  From10To15Percent
+  MoreThan15Percent
+}
+
+enum InvestmentHorizon {
+  LessThan1Year
+  From1To3Years
+  From3To5Years
+  MoreThan5Years
+}
