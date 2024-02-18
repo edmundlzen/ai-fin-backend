@@ -33,5 +33,5 @@ export class SignupUserInput {
   @IsNumber()
   @IsNotEmpty()
   @Field(() => Int, { description: 'Birth year of the user' })
-  birthYear: number;
+  birth_year: number;
 }

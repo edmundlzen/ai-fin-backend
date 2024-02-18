@@ -13,39 +13,39 @@ import {
 export class SetUserInfoInput {
   @IsEnum(AnnualIncome)
   @Field(() => AnnualIncome, { description: 'Annual income of the user' })
-  annualIncome: AnnualIncome;
+  annual_income: AnnualIncome;
 
   @IsEnum(EstimatedLiabilities)
   @Field(() => EstimatedLiabilities, {
     description: 'Estimated liabilities of the user',
   })
-  estimatedLiabilities: EstimatedLiabilities;
+  estimated_liabilities: EstimatedLiabilities;
 
   @IsEnum(EstimatedMonthlyExpenses)
   @Field(() => EstimatedMonthlyExpenses, {
     description: 'Estimated monthly expenses of the user',
   })
-  estimatedMonthlyExpenses: EstimatedMonthlyExpenses;
+  estimated_monthly_expenses: EstimatedMonthlyExpenses;
 
   @IsBoolean()
   @Field(() => Boolean, { description: 'Has the user invested before?' })
-  investedBefore: boolean;
+  invested_before: boolean;
 
   @IsEnum(RiskTolerance)
   @Field(() => RiskTolerance, {
     description: 'Risk tolerance of the user',
   })
-  riskTolerance: RiskTolerance;
+  risk_tolerance: RiskTolerance;
 
   @IsEnum(ExpectedAnnualReturn)
   @Field(() => ExpectedAnnualReturn, {
     description: 'Expected annual return of the user',
   })
-  expectedAnnualReturn: ExpectedAnnualReturn;
+  expected_annual_return: ExpectedAnnualReturn;
 
   @IsEnum(InvestmentHorizon)
   @Field(() => InvestmentHorizon, {
     description: 'Investment horizon of the user',
   })
-  investmentHorizon: InvestmentHorizon;
+  investment_horizon: InvestmentHorizon;
 }
