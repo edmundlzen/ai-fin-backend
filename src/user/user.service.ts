@@ -3,6 +3,7 @@ import { SignupUserInput } from './dto/signup-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { SetUserInfoInput } from './dto/set-user-info.input';
 
 @Injectable()
 export class UserService {
@@ -17,11 +18,8 @@ export class UserService {
 
     return this.prisma.user.create({
       data: {
-        email: signupUserInput.email,
+        ...signupUserInput,
         password_hash: hashedPassword,
-        username: signupUserInput.username,
-        phone: signupUserInput.phone,
-        birth_year: signupUserInput.birthYear,
       },
     });
   }
@@ -41,10 +39,9 @@ export class UserService {
       where: { id },
       data: {
         email: updateUserInput.email,
-        password_hash: updateUserInput.password,
         username: updateUserInput.username,
         phone: updateUserInput.phone,
-        birth_year: updateUserInput.birthYear,
+        birth_year: updateUserInput.birth_year,
       },
     });
   }
@@ -52,6 +49,21 @@ export class UserService {
   remove(id: string) {
     return this.prisma.user.delete({
       where: { id },
+    });
+  }
+
+  setInfo(id: string, setUserInput: SetUserInfoInput) {
+    return this.prisma.userInfo.upsert({
+      where: { userId: id },
+      update: {
+        ...setUserInput,
+      },
+      create: {
+        user: {
+          connect: { id },
+        },
+        ...setUserInput,
+      },
     });
   }
 }
