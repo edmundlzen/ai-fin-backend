@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 
 @InputType()
-export class CreateUserInput {
+export class SignupUserInput {
   @IsEmail()
   @Field(() => String, { description: 'Email of the user' })
   email: string;
