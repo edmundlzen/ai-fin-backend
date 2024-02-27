@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UserModule } from './user/user.module';
 import { FinancialGoalModule } from './financial-goal/financial-goal.module';
+import { UserInfoModule } from './user-info/user-info.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { FinancialGoalModule } from './financial-goal/financial-goal.module';
       autoSchemaFile: true,
     }),
     UserModule,
+    UserInfoModule,
     FinancialGoalModule,
   ],
   controllers: [AppController],
