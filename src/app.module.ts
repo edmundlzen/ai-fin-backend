@@ -6,6 +6,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UserModule } from './user/user.module';
 import { FinancialGoalModule } from './financial-goal/financial-goal.module';
 import { UserInfoModule } from './user-info/user-info.module';
+import { TransactionModule } from './transaction/transaction.module';
+import { WalletModule } from './wallet/wallet.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { UserInfoModule } from './user-info/user-info.module';
     UserModule,
     UserInfoModule,
     FinancialGoalModule,
+    TransactionModule,
+    WalletModule,
   ],
   controllers: [AppController],
   providers: [AppService],

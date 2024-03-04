@@ -20,6 +20,9 @@ export class UserService {
       data: {
         ...signupUserInput,
         password_hash: hashedPassword,
+        wallet: {
+          create: {},
+        },
       },
     });
   }

@@ -18,36 +18,63 @@ model User {
   user_info      UserInfo?
   financial_goal FinancialGoal[]
   vouchers       Voucher[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  wallet         Wallet          @relation(fields: [wallet_id], references: [id])
+  wallet_id      String          @unique
 }
 
 model FinancialGoal {
-  id                        String         @id @default(uuid())
-  created_at                DateTime       @default(now())
-  user                      User           @relation(fields: [userId], references: [id])
+  id                        String        @id @default(uuid())
+  created_at                DateTime      @default(now())
+  user                      User          @relation(fields: [userId], references: [id])
   userId                    String
   emoji                     String
   name                      String
   amount                    Int
   monthly_contribution_goal Int
-  contribution              Contribution[]
+  deletedAt                 DateTime?
+  createdAt                 DateTime      @default(now())
+  updatedAt                 DateTime      @updatedAt
+  transaction               Transaction[]
 }
 
 // Many to Many, one voucher can be used by many users and one user can use many vouchers
 model Voucher {
-  id         String   @id @default(uuid())
-  created_at DateTime @default(now())
+  id         String    @id @default(uuid())
+  created_at DateTime  @default(now())
   name       String
   code       String
   terms      String
   users      User[]
+  deletedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
-model Contribution {
-  id              String        @id @default(uuid())
-  created_at      DateTime      @default(now())
-  financialGoal   FinancialGoal @relation(fields: [financialGoalId], references: [id])
-  financialGoalId String
-  amount          Int
+model ClaimedVoucher {
+  userId    String
+  voucherId String
+
+  @@id([userId, voucherId])
+}
+
+model Wallet {
+  id           String        @id @default(uuid())
+  created_at   DateTime      @default(now())
+  user         User?
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Transaction {
+  id                String        @id @default(uuid())
+  amount            Int
+  wallet            Wallet        @relation(fields: [wallet_id], references: [id])
+  wallet_id         String
+  financial_goal    FinancialGoal @relation(fields: [financial_goal_id], references: [id])
+  financial_goal_id String
 }
 
 model UserInfo {
@@ -60,6 +87,9 @@ model UserInfo {
   risk_tolerance             RiskTolerance
   expected_annual_return     ExpectedAnnualReturn
   investment_horizon         InvestmentHorizon
+  deletedAt                  DateTime?
+  createdAt                  DateTime                 @default(now())
+  updatedAt                  DateTime                 @updatedAt
 }
 
 enum AnnualIncome {
