@@ -8,11 +8,14 @@ import { FinancialGoalModule } from './financial-goal/financial-goal.module';
 import { UserInfoModule } from './user-info/user-info.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { WalletModule } from './wallet/wallet.module';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
       autoSchemaFile: true,
     }),
     UserModule,

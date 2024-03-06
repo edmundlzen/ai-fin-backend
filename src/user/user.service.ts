@@ -4,6 +4,7 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { SetUserInfoInput } from './dto/set-user-info.input';
+import { SigninUserInput } from './dto/signin-user.input';
 
 @Injectable()
 export class UserService {
@@ -25,6 +26,27 @@ export class UserService {
         },
       },
     });
+  }
+
+  async signin(signinUserInput: SigninUserInput) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: signinUserInput.email },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      signinUserInput.password,
+      user.password_hash,
+    );
+
+    if (!isPasswordValid) {
+      throw new Error('Invalid password');
+    }
+
+    return user;
   }
 
   findAll() {
