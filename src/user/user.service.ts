@@ -5,10 +5,12 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { SetUserInfoInput } from './dto/set-user-info.input';
 import { SigninUserInput } from './dto/signin-user.input';
+import { User } from '@prisma/client';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
   async create(signupUserInput: SignupUserInput) {
     const unhashedPassword = signupUserInput.password;
@@ -16,10 +18,11 @@ export class UserService {
       unhashedPassword,
       Number(process.env.HASH_SALT),
     );
+    const { password, ...rest } = signupUserInput;
 
     return this.prisma.user.create({
       data: {
-        ...signupUserInput,
+        ...rest,
         password_hash: hashedPassword,
         wallet: {
           create: {},
@@ -46,7 +49,14 @@ export class UserService {
       throw new Error('Invalid password');
     }
 
-    return user;
+    return this.generateJWT(user);
+  }
+
+  async generateJWT(user: User) {
+    const payload = { email: user.email, sub: user.id };
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
   }
 
   findAll() {

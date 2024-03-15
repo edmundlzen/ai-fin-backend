@@ -4,6 +4,11 @@ import { User } from './entities/user.entity';
 import { SignupUserInput } from './dto/signup-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { SigninUserInput } from './dto/signin-user.input';
+import { Jwt } from './entities/jwt.entity';
+import { UnauthorizedException, UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'src/auth/auth.guard';
+import { JwtPayload } from 'src/auth/jwt-payload.decorator';
+import { JwtPayloadType } from 'src/auth/jwt.strategy';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -14,28 +19,44 @@ export class UserResolver {
     return this.userService.create(signupUserInput);
   }
 
-  @Mutation(() => User)
+  @Mutation(() => Jwt)
   signinUser(@Args('signinUserInput') signinUserInput: SigninUserInput) {
     return this.userService.signin(signinUserInput);
   }
 
-  @Query(() => [User], { name: 'user' })
-  findAll() {
-    return this.userService.findAll();
-  }
-
+  @UseGuards(GqlAuthGuard)
   @Query(() => User, { name: 'user' })
-  findOne(@Args('id', { type: () => String }) id: string) {
+  findOne(
+    @Args('id', { type: () => String }) id: string,
+    @JwtPayload() payload: JwtPayloadType,
+  ) {
+    if (payload.userId !== id)
+      throw new UnauthorizedException(
+        'You are not authorized to perform this action',
+      );
     return this.userService.findOne(id);
   }
 
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+  updateUser(
+    @Args('updateUserInput') updateUserInput: UpdateUserInput,
+    @JwtPayload() payload: JwtPayloadType,
+  ) {
+    if (payload.userId !== updateUserInput.id)
+      throw new UnauthorizedException(
+        'You are not authorized to perform this action',
+      );
     return this.userService.update(updateUserInput.id, updateUserInput);
   }
 
-  @Mutation(() => User)
-  removeUser(@Args('id', { type: () => String }) id: string) {
-    return this.userService.remove(id);
-  }
+  // @Query(() => [User], { name: 'user' })
+  // findAll() {
+  //   return this.userService.findAll();
+  // }
+
+  // @Mutation(() => User)
+  // removeUser(@Args('id', { type: () => String }) id: string) {
+  //   return this.userService.remove(id);
+  // }
 }
