@@ -12,7 +12,7 @@ export class CreateFinancialGoalInput {
   amount: number;
 
   @Field(() => Int, {
-    description: 'Target monthly contribution of the financial goal',
+    description: 'Targeted months to reach the financial goal',
   })
-  monthly_contribution_goal: number;
+  months_to_reach_goal: number;
 }

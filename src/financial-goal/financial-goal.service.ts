@@ -7,12 +7,12 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class FinancialGoalService {
   constructor(private prisma: PrismaService) {}
 
-  create(createFinancialGoalInput: CreateFinancialGoalInput) {
+  create(createFinancialGoalInput: CreateFinancialGoalInput, userId: string) {
     return this.prisma.financialGoal.create({
       data: {
         ...createFinancialGoalInput,
         user: {
-          connect: { id: 'SOME_USER_ID' },
+          connect: { id: userId },
         },
       },
     });

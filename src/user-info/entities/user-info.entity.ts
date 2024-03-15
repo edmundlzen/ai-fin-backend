@@ -36,9 +36,6 @@ export class UserInfo implements UserInfoPrismaType {
   investment_horizon: InvestmentHorizon;
 
   @Field(() => Date)
-  deletedAt: Date;
-
-  @Field(() => Date)
   createdAt: Date;
 
   @Field(() => Date)

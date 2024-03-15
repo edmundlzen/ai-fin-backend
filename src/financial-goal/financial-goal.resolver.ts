@@ -3,17 +3,26 @@ import { FinancialGoalService } from './financial-goal.service';
 import { FinancialGoal } from './entities/financial-goal.entity';
 import { CreateFinancialGoalInput } from './dto/create-financial-goal.input';
 import { UpdateFinancialGoalInput } from './dto/update-financial-goal.input';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'src/auth/auth.guard';
+import { JwtPayload } from 'src/auth/jwt-payload.decorator';
+import { JwtPayloadType } from 'src/auth/jwt.strategy';
 
 @Resolver(() => FinancialGoal)
 export class FinancialGoalResolver {
   constructor(private readonly financialGoalService: FinancialGoalService) {}
 
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => FinancialGoal)
   createFinancialGoal(
     @Args('createFinancialGoalInput')
     createFinancialGoalInput: CreateFinancialGoalInput,
+    @JwtPayload() payload: JwtPayloadType,
   ) {
-    return this.financialGoalService.create(createFinancialGoalInput);
+    return this.financialGoalService.create(
+      createFinancialGoalInput,
+      payload.userId,
+    );
   }
 
   @Query(() => [FinancialGoal], { name: 'financialGoal' })

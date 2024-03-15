@@ -23,10 +23,7 @@ export class FinancialGoal implements FinancialGoalPrismaType {
   amount: number;
 
   @Field(() => Int)
-  monthly_contribution_goal: number;
-
-  @Field(() => Date)
-  deletedAt: Date;
+  months_to_reach_goal: number;
 
   @Field(() => Date)
   createdAt: Date;
@@ -34,6 +31,6 @@ export class FinancialGoal implements FinancialGoalPrismaType {
   @Field(() => Date)
   updatedAt: Date;
 
-  @Field(() => [Transaction])
+  @Field(() => [Transaction], { nullable: true })
   transaction: Transaction[];
 }
