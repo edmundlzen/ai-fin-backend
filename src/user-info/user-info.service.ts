@@ -25,14 +25,15 @@ export class UserInfoService {
   }
 
   createOrUpdate(createUserInfoInput: CreateOrUpdateUserInfoInput) {
+    const { user_id, ...rest } = createUserInfoInput;
     return this.prisma.userInfo.upsert({
-      where: { userId: createUserInfoInput.user_id },
-      update: createUserInfoInput,
+      where: { userId: user_id },
+      update: rest,
       create: {
         user: {
-          connect: { id: createUserInfoInput.user_id },
+          connect: { id: user_id },
         },
-        ...createUserInfoInput,
+        ...rest,
       },
     });
   }
