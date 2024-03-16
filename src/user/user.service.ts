@@ -20,7 +20,7 @@ export class UserService {
     );
     const { password, ...rest } = signupUserInput;
 
-    return this.prisma.user.create({
+    await this.prisma.user.create({
       data: {
         ...rest,
         password_hash: hashedPassword,
@@ -28,6 +28,11 @@ export class UserService {
           create: {},
         },
       },
+    });
+
+    return this.signin({
+      email: signupUserInput.email,
+      password: unhashedPassword,
     });
   }
 

@@ -14,7 +14,7 @@ import { JwtPayloadType } from 'src/auth/jwt.strategy';
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Mutation(() => User)
+  @Mutation(() => Jwt)
   signupUser(@Args('signupUserInput') signupUserInput: SignupUserInput) {
     return this.userService.create(signupUserInput);
   }
