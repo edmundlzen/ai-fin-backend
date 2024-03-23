@@ -22,4 +22,10 @@ export class Transaction implements TransactionPrismaType {
 
   @Field(() => String)
   financial_goal_id: string;
+
+  @Field(() => Date)
+  createdAt: Date;
+
+  @Field(() => Date)
+  updatedAt: Date;
 }

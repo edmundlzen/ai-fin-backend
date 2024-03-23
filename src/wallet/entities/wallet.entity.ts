@@ -8,9 +8,6 @@ export class Wallet implements WalletPrismaType {
   id: string;
 
   @Field(() => Date)
-  created_at: Date;
-
-  @Field(() => Date)
   createdAt: Date;
 
   @Field(() => Date)

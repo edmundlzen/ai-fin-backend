@@ -1,6 +1,7 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { User as UserPrismaType } from '@prisma/client';
 import { Exclude } from 'class-transformer';
+import { FinancialGoal } from 'src/financial-goal/entities/financial-goal.entity';
 import { Wallet } from 'src/wallet/entities/wallet.entity';
 
 @ObjectType()
@@ -37,4 +38,7 @@ export class User implements UserPrismaType {
 
   @Field(() => String)
   wallet_id: string;
+
+  @Field(() => [FinancialGoal])
+  financial_goal: FinancialGoal[];
 }

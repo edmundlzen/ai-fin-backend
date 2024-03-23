@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { SignupUserInput } from './dto/signup-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -40,9 +44,8 @@ export class UserService {
     const user = await this.prisma.user.findUnique({
       where: { email: signinUserInput.email },
     });
-
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -51,7 +54,8 @@ export class UserService {
     );
 
     if (!isPasswordValid) {
-      throw new Error('Invalid password');
+      console.log('Invalid password');
+      throw new UnauthorizedException('Invalid password');
     }
 
     return this.generateJWT(user);
@@ -71,6 +75,15 @@ export class UserService {
   findOne(id: string) {
     return this.prisma.user.findUnique({
       where: { id },
+      include: {
+        user_info: true,
+        wallet: {
+          include: {
+            transactions: true,
+          },
+        },
+        financial_goal: true,
+      },
     });
   }
 

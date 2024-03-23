@@ -7,9 +7,6 @@ export class FinancialGoal implements FinancialGoalPrismaType {
   @Field(() => String)
   id: string;
 
-  @Field(() => Date)
-  created_at: Date;
-
   @Field(() => String)
   userId: string;
 

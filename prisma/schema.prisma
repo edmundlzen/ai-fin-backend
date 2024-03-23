@@ -26,7 +26,6 @@ model User {
 
 model FinancialGoal {
   id                   String        @id @default(uuid())
-  created_at           DateTime      @default(now())
   user                 User          @relation(fields: [userId], references: [id])
   userId               String
   emoji                String
@@ -40,14 +39,13 @@ model FinancialGoal {
 
 // Many to Many, one voucher can be used by many users and one user can use many vouchers
 model Voucher {
-  id         String   @id @default(uuid())
-  created_at DateTime @default(now())
-  name       String
-  code       String
-  terms      String
-  users      User[]
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(uuid())
+  name      String
+  code      String
+  terms     String
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ClaimedVoucher {
@@ -59,7 +57,6 @@ model ClaimedVoucher {
 
 model Wallet {
   id           String        @id @default(uuid())
-  created_at   DateTime      @default(now())
   user         User?
   transactions Transaction[]
   createdAt    DateTime      @default(now())
@@ -73,6 +70,8 @@ model Transaction {
   wallet_id         String
   financial_goal    FinancialGoal @relation(fields: [financial_goal_id], references: [id])
   financial_goal_id String
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
 }
 
 model UserInfo {
