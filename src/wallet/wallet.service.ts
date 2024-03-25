@@ -12,6 +12,7 @@ export class WalletService {
   findOne(id: string) {
     return this.prisma.wallet.findUnique({
       where: { id },
+      include: { transactions: true },
     });
   }
 }

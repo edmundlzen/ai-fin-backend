@@ -25,6 +25,7 @@ export class FinancialGoalService {
   findOne(id: string) {
     return this.prisma.financialGoal.findUnique({
       where: { id },
+      include: { transactions: true },
     });
   }
 

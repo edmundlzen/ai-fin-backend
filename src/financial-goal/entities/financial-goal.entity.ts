@@ -29,5 +29,5 @@ export class FinancialGoal implements FinancialGoalPrismaType {
   updatedAt: Date;
 
   @Field(() => [Transaction], { nullable: true })
-  transaction: Transaction[];
+  transactions: Transaction[];
 }

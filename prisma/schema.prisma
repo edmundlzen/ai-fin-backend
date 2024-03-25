@@ -34,7 +34,7 @@ model FinancialGoal {
   months_to_reach_goal Int
   createdAt            DateTime      @default(now())
   updatedAt            DateTime      @updatedAt
-  transaction          Transaction[]
+  transactions         Transaction[]
 }
 
 // Many to Many, one voucher can be used by many users and one user can use many vouchers
