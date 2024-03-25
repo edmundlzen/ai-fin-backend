@@ -82,7 +82,11 @@ export class UserService {
             transactions: true,
           },
         },
-        financial_goal: true,
+        financial_goal: {
+          include: {
+            transactions: true,
+          },
+        },
       },
     });
   }
