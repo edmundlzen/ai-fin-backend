@@ -79,7 +79,11 @@ export class UserService {
         user_info: true,
         wallet: {
           include: {
-            transactions: true,
+            transactions: {
+              include: {
+                financial_goal: true,
+              },
+            },
           },
         },
         financial_goal: {
