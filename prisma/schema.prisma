@@ -8,20 +8,21 @@ datasource db {
 }
 
 model User {
-  id             String          @id @default(uuid())
-  email          String          @unique
-  password_hash  String
-  username       String
-  phone          String
-  birth_year     Int
-  experience     Int             @default(0)
-  user_info      UserInfo?
-  financial_goal FinancialGoal[]
-  vouchers       Voucher[]
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  wallet         Wallet          @relation(fields: [wallet_id], references: [id])
-  wallet_id      String          @unique
+  id                   String          @id @default(uuid())
+  email                String          @unique
+  password_hash        String
+  username             String
+  phone                String
+  birth_year           Int
+  experience           Int             @default(0)
+  user_info            UserInfo?
+  financial_goal       FinancialGoal[]
+  vouchers             Voucher[]
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  wallet               Wallet          @relation(fields: [wallet_id], references: [id])
+  wallet_id            String          @unique
+  news_topics_followed NewsTopic[]
 }
 
 model FinancialGoal {
@@ -86,6 +87,13 @@ model UserInfo {
   investment_horizon         InvestmentHorizon
   createdAt                  DateTime                 @default(now())
   updatedAt                  DateTime                 @updatedAt
+}
+
+enum NewsTopic {
+  INVESTMENT
+  FINANCE_LITERACY
+  FINANCIAL
+  COMPANY
 }
 
 enum AnnualIncome {
