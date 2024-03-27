@@ -99,10 +99,7 @@ export class UserService {
     return this.prisma.user.update({
       where: { id },
       data: {
-        email: updateUserInput.email,
-        username: updateUserInput.username,
-        phone: updateUserInput.phone,
-        birth_year: updateUserInput.birth_year,
+        ...updateUserInput,
       },
     });
   }

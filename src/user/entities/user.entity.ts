@@ -1,5 +1,5 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { $Enums, NewsTopic, User as UserPrismaType } from '@prisma/client';
+import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { $Enums, User as UserPrismaType } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 import { FinancialGoal } from 'src/financial-goal/entities/financial-goal.entity';
 import { Wallet } from 'src/wallet/entities/wallet.entity';
@@ -42,6 +42,10 @@ export class User implements UserPrismaType {
   @Field(() => [FinancialGoal])
   financial_goal: FinancialGoal[];
 
-  @Field(() => [NewsTopic])
-  news_topics_followed: NewsTopic[];
+  @Field(() => [$Enums.NewsTopic])
+  news_topics_followed: $Enums.NewsTopic[];
 }
+
+registerEnumType($Enums.NewsTopic, {
+  name: 'NewsTopic',
+});
