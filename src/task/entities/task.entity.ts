@@ -21,6 +21,9 @@ export class Task implements TaskPrismaType {
   @Field(() => Date)
   updatedAt: Date;
 
+  @Field(() => Int)
+  requiredAmount: number;
+
   @Field(() => $Enums.TaskType)
   type: $Enums.TaskType;
 

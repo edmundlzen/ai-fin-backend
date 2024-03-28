@@ -12,6 +12,9 @@ export class CreateTaskInput {
   @Field(() => Int)
   points: number;
 
+  @Field(() => Int)
+  requiredAmount: number;
+
   @Field(() => $Enums.TaskType)
   type: $Enums.TaskType;
 
