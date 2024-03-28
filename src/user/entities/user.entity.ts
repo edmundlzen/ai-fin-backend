@@ -50,7 +50,7 @@ export class User implements UserPrismaType {
   news_topics_followed: $Enums.NewsTopic[];
 
   @Field(() => [UserCompletedTask])
-  user_completed_tasks: UserCompletedTask[];
+  user_completed_task: UserCompletedTask[];
 }
 
 registerEnumType($Enums.NewsTopic, {
