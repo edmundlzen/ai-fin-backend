@@ -24,7 +24,7 @@ model User {
   wallet               Wallet              @relation(fields: [wallet_id], references: [id])
   wallet_id            String              @unique
   news_topics_followed NewsTopic[]
-  UserCompletedTask    UserCompletedTask[]
+  user_completed_task  UserCompletedTask[]
 }
 
 model UserCompletedTask {

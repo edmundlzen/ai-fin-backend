@@ -91,7 +91,7 @@ export class UserService {
             transactions: true,
           },
         },
-        UserCompletedTask: {
+        user_completed_task: {
           include: {
             task: true,
           },
