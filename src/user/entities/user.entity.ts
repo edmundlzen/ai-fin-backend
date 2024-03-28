@@ -25,6 +25,9 @@ export class User implements UserPrismaType {
   password_hash: string;
 
   @Field(() => Int)
+  level: number;
+
+  @Field(() => Int)
   experience: number;
 
   @Field(() => Date)

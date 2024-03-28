@@ -2,12 +2,25 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Transaction } from 'src/transaction/entities/transaction.entity';
 
 @ObjectType()
-export class News {
-  @Field(() => String)
-  source: string;
+export class NewsSource {
+  @Field({
+    nullable: true,
+  })
+  id: string;
 
   @Field(() => String)
-  author: string;
+  name: string;
+}
+
+@ObjectType()
+export class News {
+  @Field(() => NewsSource)
+  source: NewsSource;
+
+  @Field({
+    nullable: true,
+  })
+  author?: string;
 
   @Field(() => String)
   title: string;
@@ -15,15 +28,17 @@ export class News {
   @Field(() => String)
   description: string;
 
-  @Field(() => Int)
-  url: number;
+  @Field(() => String)
+  url: string;
 
-  @Field(() => Int)
-  urlToImage: number;
+  @Field({
+    nullable: true,
+  })
+  urlToImage?: string;
 
-  @Field(() => Date)
-  publishedAt: Date;
+  @Field(() => String)
+  publishedAt: string;
 
-  @Field(() => Date)
-  content: Date;
+  @Field(() => String)
+  content: string;
 }
