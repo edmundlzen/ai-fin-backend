@@ -8,22 +8,58 @@ datasource db {
 }
 
 model User {
-  id                   String          @id @default(uuid())
-  email                String          @unique
+  id                   String              @id @default(uuid())
+  email                String              @unique
   password_hash        String
   username             String
   phone                String
   birth_year           Int
-  level                Int             @default(0)
-  experience           Int             @default(0)
+  level                Int                 @default(1)
+  experience           Int                 @default(0)
   user_info            UserInfo?
   financial_goal       FinancialGoal[]
   vouchers             Voucher[]
-  createdAt            DateTime        @default(now())
-  updatedAt            DateTime        @updatedAt
-  wallet               Wallet          @relation(fields: [wallet_id], references: [id])
-  wallet_id            String          @unique
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+  wallet               Wallet              @relation(fields: [wallet_id], references: [id])
+  wallet_id            String              @unique
   news_topics_followed NewsTopic[]
+  UserCompletedTask    UserCompletedTask[]
+}
+
+model UserCompletedTask {
+  userId    String
+  taskId    String
+  user      User     @relation(fields: [userId], references: [id])
+  task      Task     @relation(fields: [taskId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@id([userId, taskId])
+}
+
+model Task {
+  id                String              @id @default(uuid())
+  title             String
+  description       String
+  points            Int
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  type              TaskType
+  timing            TaskTiming
+  UserCompletedTask UserCompletedTask[]
+}
+
+enum TaskType {
+  READING_ARTICLES
+  ACHIEVING_FINANCIAL_GOALS
+  SAVING_MONEY
+}
+
+enum TaskTiming {
+  ONCE
+  DAILY
+  WEEKLY
+  MONTHLY
 }
 
 model FinancialGoal {
