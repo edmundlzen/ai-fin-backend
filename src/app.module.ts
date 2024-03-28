@@ -9,6 +9,7 @@ import { WalletModule } from './wallet/wallet.module';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { AuthModule } from './auth/auth.module';
 import { NewsModule } from './news/news.module';
+import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { NewsModule } from './news/news.module';
     WalletModule,
     AuthModule,
     NewsModule,
+    TaskModule,
   ],
 })
 export class AppModule {}
