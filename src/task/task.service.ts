@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ReportActionInput } from './dto/report-action.input';
 import { $Enums } from '@prisma/client';
-import dayjs from 'dayjs';
+import * as dayjs from 'dayjs';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
