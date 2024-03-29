@@ -135,7 +135,6 @@ export class UserService {
     const userData = await this.prisma.user.findUnique({
       where: { id },
     });
-    console.log(userData);
     const { experience, level } = userData;
 
     if (experience + experienceChange > level_exp_scaling[level]) {
