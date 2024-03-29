@@ -32,5 +32,5 @@ export class UserCompletedTask implements UserCompletedTaskPrismaType {
   @Field({
     nullable: true,
   })
-  lastClaimed?: Date;
+  lastClaimed: Date | null;
 }
