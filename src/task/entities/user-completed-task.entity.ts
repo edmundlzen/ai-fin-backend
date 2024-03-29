@@ -23,6 +23,12 @@ export class UserCompletedTask implements UserCompletedTaskPrismaType {
   @Field(() => Int)
   createdAt: Date;
 
+  @Field(() => Date)
+  updatedAt: Date;
+
   @Field(() => Int)
   achieved: number;
+
+  @Field(() => Date)
+  lastClaimed: Date;
 }

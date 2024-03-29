@@ -42,7 +42,7 @@ export class TaskService {
     });
 
     if (applicableTasks.length === 0) {
-      return { ok: false };
+      return { success: false };
     }
 
     await this.prisma.userCompletedTask.upsert({
@@ -72,6 +72,23 @@ export class TaskService {
       },
     });
 
-    return { ok: true };
+    return { success: true };
+  }
+
+  async claimReward(taskId: string, userId: string) {
+    const originalTask = await this.prisma.task.findUnique({
+      where: {
+        id: taskId,
+      },
+    });
+    const userProgressForTask = (
+      await this.prisma.userCompletedTask.findFirst({
+        where: {
+          userId,
+          taskId,
+        },
+      })
+    ).achieved;
+    return { success: true };
   }
 }

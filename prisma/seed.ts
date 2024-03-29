@@ -45,8 +45,13 @@ const initTasks = async () => {
   });
 };
 
+const clearCompletedTasks = async () => {
+  await prisma.userCompletedTask.deleteMany({});
+};
+
 const main = async () => {
   await initTasks();
+  await clearCompletedTasks();
 };
 
 main()

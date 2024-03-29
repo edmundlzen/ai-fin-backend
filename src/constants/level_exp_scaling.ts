@@ -15,3 +15,5 @@ const level_exp_scaling = {
   14: 14000,
   15: 15000,
 };
+
+export default level_exp_scaling;

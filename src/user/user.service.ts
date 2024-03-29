@@ -11,6 +11,7 @@ import { SetUserInfoInput } from './dto/set-user-info.input';
 import { SigninUserInput } from './dto/signin-user.input';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
+import level_exp_scaling from 'src/constants/level_exp_scaling';
 
 @Injectable()
 export class UserService {
@@ -128,5 +129,30 @@ export class UserService {
         ...setUserInput,
       },
     });
+  }
+
+  async addExperience(id: string, experienceChange: number) {
+    const userData = await this.prisma.user.findUnique({
+      where: { id },
+    });
+    console.log(userData);
+    const { experience, level } = userData;
+
+    if (experience + experienceChange > level_exp_scaling[level]) {
+      await this.prisma.user.update({
+        where: { id },
+        data: {
+          level: level + 1,
+          experience: experience + experienceChange - level_exp_scaling[level],
+        },
+      });
+    } else {
+      await this.prisma.user.update({
+        where: { id },
+        data: {
+          experience: experience + experienceChange,
+        },
+      });
+    }
   }
 }

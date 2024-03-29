@@ -3,17 +3,26 @@ import { TransactionService } from './transaction.service';
 import { Transaction } from './entities/transaction.entity';
 import { CreateTransactionInput } from './dto/create-transaction.input';
 import { UpdateTransactionInput } from './dto/update-transaction.input';
+import { JwtPayload } from 'src/auth/jwt-payload.decorator';
+import { JwtPayloadType } from 'src/auth/jwt.strategy';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from 'src/auth/auth.guard';
 
 @Resolver(() => Transaction)
 export class TransactionResolver {
   constructor(private readonly TransactionService: TransactionService) {}
 
+  @UseGuards(GqlAuthGuard)
   @Mutation(() => Transaction)
   createTransaction(
     @Args('createTransactionInput')
     createTransactionInput: CreateTransactionInput,
+    @JwtPayload() payload: JwtPayloadType,
   ) {
-    return this.TransactionService.create(createTransactionInput);
+    return this.TransactionService.create(
+      createTransactionInput,
+      payload.userId,
+    );
   }
 
   @Query(() => [Transaction], { name: 'Transaction' })

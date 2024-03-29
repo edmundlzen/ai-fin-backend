@@ -2,14 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { CreateTransactionInput } from './dto/create-transaction.input';
 import { UpdateTransactionInput } from './dto/update-transaction.input';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class TransactionService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private userService: UserService,
+  ) {}
 
-  create(createTransactionInput: CreateTransactionInput) {
+  async create(
+    createTransactionInput: CreateTransactionInput,
+    user_id: string,
+  ) {
     const { wallet_id, financial_goal_id, ...rest } = createTransactionInput;
-    return this.prisma.transaction.create({
+    await this.userService.addExperience(user_id, rest.amount);
+    return await this.prisma.transaction.create({
       data: {
         ...rest,
         wallet: {
