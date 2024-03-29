@@ -170,6 +170,7 @@ export class TaskService {
         },
       },
       data: {
+        achieved: 0,
         lastClaimed: new Date(),
       },
     });
