@@ -2,7 +2,7 @@ import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Voucher as VoucherPrismaType } from '@prisma/client';
 
 @ObjectType()
-export class Voucher implements VoucherPrismaType {
+export class Voucher implements Partial<VoucherPrismaType> {
   @Field(() => String)
   id: string;
 
@@ -11,9 +11,6 @@ export class Voucher implements VoucherPrismaType {
 
   @Field(() => Int)
   levelRequired: number;
-
-  @Field(() => String)
-  code: string;
 
   @Field(() => String)
   terms: string;

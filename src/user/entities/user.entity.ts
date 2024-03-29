@@ -1,9 +1,9 @@
 import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { $Enums, User as UserPrismaType } from '@prisma/client';
 import { Exclude } from 'class-transformer';
+import { ClaimedVoucher } from 'src/claimed-voucher/entities/claimed-voucher.entity';
 import { FinancialGoal } from 'src/financial-goal/entities/financial-goal.entity';
 import { UserCompletedTask } from 'src/task/entities/user-completed-task.entity';
-import { ClaimedVoucher } from 'src/voucher/entities/claimed-voucher.entity';
 import { Wallet } from 'src/wallet/entities/wallet.entity';
 
 @ObjectType()

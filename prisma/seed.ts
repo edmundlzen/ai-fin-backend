@@ -38,10 +38,45 @@ const defaultTasks: Array<Task> = [
   },
 ];
 
-const initTasks = async () => {
+const seedTasks = async () => {
   await prisma.task.deleteMany({});
   await prisma.task.createMany({
     data: defaultTasks,
+  });
+};
+
+const seedVouchers = async () => {
+  await prisma.voucher.deleteMany({});
+  await prisma.voucher.createMany({
+    data: [
+      {
+        id: '1',
+        name: 'Voucher 1',
+        terms: 'Voucher 1 description',
+        levelRequired: 1,
+        code: 'VOUCHER1',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: '2',
+        name: 'Voucher 2',
+        terms: 'Voucher 2 description',
+        levelRequired: 2,
+        code: 'VOUCHER2',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: '3',
+        name: 'Voucher 3',
+        terms: 'Voucher 3 description',
+        levelRequired: 3,
+        code: 'VOUCHER3',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ],
   });
 };
 
@@ -50,8 +85,9 @@ const clearCompletedTasks = async () => {
 };
 
 const main = async () => {
-  await initTasks();
   await clearCompletedTasks();
+  await seedTasks();
+  await seedVouchers();
 };
 
 main()

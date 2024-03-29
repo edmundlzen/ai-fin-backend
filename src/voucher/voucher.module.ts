@@ -5,6 +5,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
 
 @Module({
-  providers: [VoucherResolver, VoucherService, PrismaService],
+  providers: [VoucherResolver, VoucherService, PrismaService, UserService],
 })
 export class VoucherModule {}

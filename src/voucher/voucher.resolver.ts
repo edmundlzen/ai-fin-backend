@@ -15,6 +15,7 @@ export class VoucherResolver {
   findAll() {
     return this.VoucherService.findAll();
   }
+
   @UseGuards(GqlAuthGuard)
   @Mutation(() => SuccessResult)
   claimVoucher(

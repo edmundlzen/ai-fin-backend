@@ -82,6 +82,7 @@ model FinancialGoal {
 // Many to Many, one voucher can be used by many users and one user can use many vouchers
 model Voucher {
   id             String           @id @default(uuid())
+  imageUrl       String           @default("https://via.placeholder.com/150")
   name           String
   code           String
   terms          String

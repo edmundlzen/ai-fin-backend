@@ -14,4 +14,7 @@ export class ClaimedVoucher implements ClaimedVoucherPrismaType {
 
   @Field(() => Date)
   updatedAt: Date;
+
+  @Field(() => String)
+  code: string;
 }

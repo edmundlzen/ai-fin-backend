@@ -10,6 +10,8 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
 import { AuthModule } from './auth/auth.module';
 import { NewsModule } from './news/news.module';
 import { TaskModule } from './task/task.module';
+import { VoucherModule } from './voucher/voucher.module';
+import { ClaimedVoucherModule } from './claimed-voucher/claimed-voucher.module';
 
 @Module({
   imports: [
@@ -27,6 +29,8 @@ import { TaskModule } from './task/task.module';
     AuthModule,
     NewsModule,
     TaskModule,
+    VoucherModule,
+    ClaimedVoucherModule,
   ],
 })
 export class AppModule {}
