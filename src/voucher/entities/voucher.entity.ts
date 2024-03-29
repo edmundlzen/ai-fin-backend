@@ -7,6 +7,9 @@ export class Voucher implements Partial<VoucherPrismaType> {
   id: string;
 
   @Field(() => String)
+  imageUrl: string;
+
+  @Field(() => String)
   name: string;
 
   @Field(() => Int)
