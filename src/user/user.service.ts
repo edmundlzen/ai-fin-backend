@@ -97,6 +97,7 @@ export class UserService {
             task: true,
           },
         },
+        claimedVoucher: true,
       },
     });
   }
