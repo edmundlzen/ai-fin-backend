@@ -68,7 +68,11 @@ export class UserService {
   }
 
   async generateJWT(user: User) {
-    const payload = { email: user.email, sub: user.id };
+    const payload = {
+      email: user.email,
+      sub: user.id,
+      type: user.account_type,
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

@@ -25,6 +25,12 @@ model User {
   news_topics_followed NewsTopic[]
   user_completed_task  UserCompletedTask[]
   claimedVoucher       ClaimedVoucher[]
+  account_type         AccountType         @default(USER)
+}
+
+enum AccountType {
+  USER
+  ADMIN
 }
 
 model UserCompletedTask {

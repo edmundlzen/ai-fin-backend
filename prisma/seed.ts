@@ -1,4 +1,5 @@
 import { PrismaClient, Task, TaskTiming, TaskType } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
@@ -37,6 +38,10 @@ const defaultTasks: Array<Task> = [
     timing: TaskTiming.DAILY,
   },
 ];
+
+const clearCompletedTasks = async () => {
+  await prisma.userCompletedTask.deleteMany({});
+};
 
 const seedTasks = async () => {
   await prisma.task.deleteMany({});
@@ -80,14 +85,39 @@ const seedVouchers = async () => {
   });
 };
 
-const clearCompletedTasks = async () => {
-  await prisma.userCompletedTask.deleteMany({});
+const deleteAdminAccounts = async () => {
+  await prisma.user.deleteMany({
+    where: {
+      account_type: 'ADMIN',
+    },
+  });
+};
+
+const seedAdminAccount = async () => {
+  await prisma.user.create({
+    data: {
+      id: 'admin',
+      email: 'test@admin.com',
+      username: 'admin',
+      phone: '1234567890',
+      birth_year: 1990,
+      password_hash: await bcrypt.hash('admin123', 10),
+      level: 1,
+      experience: 0,
+      account_type: 'ADMIN',
+      wallet: {
+        create: {},
+      },
+    },
+  });
 };
 
 const main = async () => {
   await clearCompletedTasks();
   await seedTasks();
   await seedVouchers();
+  await deleteAdminAccounts();
+  await seedAdminAccount();
 };
 
 main()

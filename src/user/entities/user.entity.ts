@@ -44,6 +44,9 @@ export class User implements UserPrismaType {
   @Field(() => String)
   wallet_id: string;
 
+  @Field(() => $Enums.AccountType)
+  account_type: $Enums.AccountType;
+
   @Field(() => [FinancialGoal])
   financial_goal: FinancialGoal[];
 
@@ -59,4 +62,8 @@ export class User implements UserPrismaType {
 
 registerEnumType($Enums.NewsTopic, {
   name: 'NewsTopic',
+});
+
+registerEnumType($Enums.AccountType, {
+  name: 'AccountType',
 });
