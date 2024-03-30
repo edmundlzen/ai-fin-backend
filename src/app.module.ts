@@ -12,6 +12,7 @@ import { NewsModule } from './news/news.module';
 import { TaskModule } from './task/task.module';
 import { VoucherModule } from './voucher/voucher.module';
 import { ClaimedVoucherModule } from './claimed-voucher/claimed-voucher.module';
+import { AdminDataModule } from './admin-data/admin-data.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ClaimedVoucherModule } from './claimed-voucher/claimed-voucher.module';
     TaskModule,
     VoucherModule,
     ClaimedVoucherModule,
+    AdminDataModule,
   ],
 })
 export class AppModule {}
