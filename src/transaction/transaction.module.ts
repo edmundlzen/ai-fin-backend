@@ -3,6 +3,7 @@ import { TransactionService } from './transaction.service';
 import { TransactionResolver } from './transaction.resolver';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
+import { ClaimedVoucherService } from 'src/claimed-voucher/claimed-voucher.service';
 
 @Module({
   providers: [
@@ -10,6 +11,7 @@ import { UserService } from 'src/user/user.service';
     TransactionService,
     PrismaService,
     UserService,
+    ClaimedVoucherService,
   ],
 })
 export class TransactionModule {}

@@ -32,7 +32,9 @@ export class NewsService {
       }),
     );
 
-    const newsSliced = news.map((news) => news.slice(0, 5));
+    const newsSliced = news.map((news) =>
+      news.slice(0, 30 / news_topics_followed.length),
+    );
 
     return newsSliced.flat().reduce((acc, curr) => {
       if (!acc.some((news) => news.title === curr.title)) {

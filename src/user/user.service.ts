@@ -12,10 +12,15 @@ import { SigninUserInput } from './dto/signin-user.input';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import level_exp_scaling from 'src/constants/level_exp_scaling';
+import { ClaimedVoucherService } from 'src/claimed-voucher/claimed-voucher.service';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+    private claimedVoucherService: ClaimedVoucherService,
+  ) {}
 
   async create(signupUserInput: SignupUserInput) {
     const unhashedPassword = signupUserInput.password;
@@ -73,8 +78,8 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
-  findOne(id: string) {
-    return this.prisma.user.findUnique({
+  async findOne(id: string) {
+    const user = await this.prisma.user.findUnique({
       where: { id },
       include: {
         user_info: true,
@@ -97,9 +102,15 @@ export class UserService {
             task: true,
           },
         },
-        claimedVoucher: true,
       },
     });
+
+    const userWithClaimedVouchers = {
+      ...user,
+      claimedVoucher: await this.claimedVoucherService.findAllForUser(id),
+    };
+
+    return userWithClaimedVouchers;
   }
 
   update(id: string, updateUserInput: UpdateUserInput) {
