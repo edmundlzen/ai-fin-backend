@@ -5,7 +5,7 @@ import { AdminData } from './entities/admin-data.entity';
 export class AdminDataResolver {
   constructor(private readonly AdminDataService: AdminDataService) {}
 
-  @Query(() => AdminData, { name: 'AdminData' })
+  @Query(() => AdminData, { name: 'adminData' })
   query() {
     return this.AdminDataService.query();
   }
