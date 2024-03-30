@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { UserService } from 'src/user/user.service';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { ClaimedVoucherService } from 'src/claimed-voucher/claimed-voucher.service';
 
 @Module({
   imports: [
@@ -12,6 +15,6 @@ import { JwtModule } from '@nestjs/jwt';
       signOptions: { expiresIn: '30d' },
     }),
   ],
-  providers: [JwtStrategy],
+  providers: [JwtStrategy, UserService, PrismaService, ClaimedVoucherService],
 })
 export class AuthModule {}

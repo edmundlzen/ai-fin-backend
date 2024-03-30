@@ -4,6 +4,7 @@ import { Exclude } from 'class-transformer';
 import { ClaimedVoucher } from 'src/claimed-voucher/entities/claimed-voucher.entity';
 import { FinancialGoal } from 'src/financial-goal/entities/financial-goal.entity';
 import { UserCompletedTask } from 'src/task/entities/user-completed-task.entity';
+import { UserInfo } from 'src/user-info/entities/user-info.entity';
 import { Wallet } from 'src/wallet/entities/wallet.entity';
 
 @ObjectType()
@@ -58,6 +59,9 @@ export class User implements UserPrismaType {
 
   @Field(() => [ClaimedVoucher])
   claimedVoucher: ClaimedVoucher[];
+
+  @Field(() => UserInfo, { nullable: true })
+  user_info?: UserInfo;
 }
 
 registerEnumType($Enums.NewsTopic, {

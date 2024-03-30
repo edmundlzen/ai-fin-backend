@@ -151,6 +151,8 @@ export class UserService {
     const userData = await this.prisma.user.findUnique({
       where: { id },
     });
+    if (!userData) throw new NotFoundException('User not found');
+
     const { experience, level } = userData;
 
     if (experience + experienceChange > level_exp_scaling[level]) {
@@ -169,5 +171,23 @@ export class UserService {
         },
       });
     }
+  }
+
+  async reportUserActiveForMonth(userId: string, month: number, year: number) {
+    return this.prisma.userActiveForMonth.upsert({
+      where: {
+        userId_month_year: {
+          userId,
+          month,
+          year,
+        },
+      },
+      update: {},
+      create: {
+        userId,
+        month,
+        year,
+      },
+    });
   }
 }

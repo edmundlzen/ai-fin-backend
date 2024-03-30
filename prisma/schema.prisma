@@ -8,24 +8,36 @@ datasource db {
 }
 
 model User {
-  id                   String              @id @default(uuid())
-  email                String              @unique
-  password_hash        String
-  username             String
-  phone                String
-  birth_year           Int
-  level                Int                 @default(1)
-  experience           Int                 @default(0)
-  user_info            UserInfo?
-  financial_goal       FinancialGoal[]
-  createdAt            DateTime            @default(now())
-  updatedAt            DateTime            @updatedAt
-  wallet               Wallet              @relation(fields: [wallet_id], references: [id])
-  wallet_id            String              @unique
-  news_topics_followed NewsTopic[]
-  user_completed_task  UserCompletedTask[]
-  claimedVoucher       ClaimedVoucher[]
-  account_type         AccountType         @default(USER)
+  id                    String               @id @default(uuid())
+  email                 String               @unique
+  password_hash         String
+  username              String
+  phone                 String
+  birth_year            Int
+  level                 Int                  @default(1)
+  experience            Int                  @default(0)
+  user_info             UserInfo?
+  financial_goal        FinancialGoal[]
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  wallet                Wallet               @relation(fields: [wallet_id], references: [id])
+  wallet_id             String               @unique
+  news_topics_followed  NewsTopic[]
+  user_completed_task   UserCompletedTask[]
+  claimedVoucher        ClaimedVoucher[]
+  account_type          AccountType          @default(USER)
+  user_active_for_month UserActiveForMonth[]
+}
+
+model UserActiveForMonth {
+  userId    String
+  month     Int
+  year      Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@id([userId, month, year])
 }
 
 enum AccountType {
