@@ -29,7 +29,7 @@ export class UserCompletedTask implements UserCompletedTaskPrismaType {
   @Field(() => Int)
   achieved: number;
 
-  @Field({
+  @Field(() => Date, {
     nullable: true,
   })
   lastClaimed: Date | null;

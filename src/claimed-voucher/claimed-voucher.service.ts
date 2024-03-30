@@ -21,7 +21,7 @@ export class ClaimedVoucherService {
 
         return {
           ...userVoucher,
-          code: voucher.code,
+          code: voucher?.code,
         };
       }),
     );

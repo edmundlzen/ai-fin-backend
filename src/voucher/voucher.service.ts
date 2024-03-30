@@ -32,7 +32,7 @@ export class VoucherService {
       throw new Error('User not found');
     }
 
-    if (user.level < voucher.levelRequired) {
+    if ((user.level ?? 0) < voucher.levelRequired) {
       throw new Error('Insufficient level');
     }
 

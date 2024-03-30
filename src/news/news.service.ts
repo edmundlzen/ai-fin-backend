@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { NewsTopic } from '@prisma/client';
 import * as NodeCache from 'node-cache';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -15,6 +15,8 @@ export class NewsService {
       where: { id },
       select: { news_topics_followed: true },
     });
+
+    if (!user) throw new NotFoundException('User not found');
 
     if (!user.news_topics_followed) return [];
 
