@@ -44,13 +44,21 @@ export class AiStrategyService {
       [],
     );
 
+    console.log(
+      'Recommended amount of funds: ',
+      unitTrustFundRecommendations.length,
+    );
+
     const aiStrategy: AiStrategy = {
       expensesRatio: expensesRatio,
       turnoverRatio: turnoverRatio,
       unitTrustFundRecommendations: unitTrustFundRecommendations.map(
         (fund: any) => {
           return {
-            ...fund,
+            fundName: fund.fund_name,
+            expenseRatio: fund.management_fee,
+            turnoverRatio: fund.ptr[Object.keys(fund.ptr)[0]],
+            riskLevel: fund.risk_level,
             imageUrl: 'https://via.placeholder.com/150',
             phsUrl: 'https://via.placeholder.com/150',
           };
