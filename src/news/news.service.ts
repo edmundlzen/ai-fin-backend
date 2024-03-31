@@ -65,7 +65,7 @@ export class NewsService {
       }
     ).articles.filter((article) => article.title !== '[Removed]');
 
-    newsCache.set(topic, newNewsJson, 60 * 60 * 24); // 24 hours
+    newsCache.set(topic, newNewsJson, 60 * 30);
     return newNewsJson as Array<News>;
   }
 }

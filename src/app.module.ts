@@ -13,6 +13,7 @@ import { TaskModule } from './task/task.module';
 import { VoucherModule } from './voucher/voucher.module';
 import { ClaimedVoucherModule } from './claimed-voucher/claimed-voucher.module';
 import { AdminDataModule } from './admin-data/admin-data.module';
+import { AiStrategyModule } from './ai-strategy/ai-strategy.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { AdminDataModule } from './admin-data/admin-data.module';
     VoucherModule,
     ClaimedVoucherModule,
     AdminDataModule,
+    AiStrategyModule,
   ],
 })
 export class AppModule {}
