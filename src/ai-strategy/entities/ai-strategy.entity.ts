@@ -3,12 +3,15 @@ import { UnitTrustFund } from './unit-trust-fund.entity';
 
 @ObjectType()
 export class AiStrategy {
-  @Field(() => Float)
-  expensesRatio: number;
+  @Field(() => Boolean)
+  loading: boolean;
 
-  @Field(() => Float)
-  turnoverRatio: number;
+  @Field(() => Float, { nullable: true })
+  expensesRatio?: number;
 
-  @Field(() => [UnitTrustFund])
-  unitTrustFundRecommendations: UnitTrustFund[];
+  @Field(() => Float, { nullable: true })
+  turnoverRatio?: number;
+
+  @Field(() => [UnitTrustFund], { nullable: true })
+  unitTrustFundRecommendations?: UnitTrustFund[];
 }

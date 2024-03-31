@@ -50,6 +50,7 @@ export class AiStrategyService {
     );
 
     const aiStrategy: AiStrategy = {
+      loading: false,
       expensesRatio: expensesRatio,
       turnoverRatio: turnoverRatio,
       unitTrustFundRecommendations: unitTrustFundRecommendations.map(
