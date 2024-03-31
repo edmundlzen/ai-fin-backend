@@ -28,7 +28,7 @@ export class AiStrategyService {
     }
 
     const aiStrategy = await this.generateForUser(id);
-    aiStrategyCache.set(id, aiStrategy, 60 * 30);
+    aiStrategyCache.set(id, aiStrategy, 1);
 
     return aiStrategy;
   }
