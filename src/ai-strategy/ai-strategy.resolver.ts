@@ -11,7 +11,7 @@ export class AiStrategyResolver {
   constructor(private readonly AiStrategyService: AiStrategyService) {}
 
   @UseGuards(GqlAuthGuard)
-  @Query(() => [AiStrategy], { name: 'aiStrategy' })
+  @Query(() => AiStrategy, { name: 'aiStrategy' })
   fetchForuser(@JwtPayload() user: JwtPayloadType) {
     return this.AiStrategyService.fetchForUser(user.userId);
   }

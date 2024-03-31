@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import * as NodeCache from 'node-cache';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AiStrategy } from './entities/ai-strategy.entity';
-import pb_funds_data from '../../unitTrustFundsData/merged_pb_funds_data.json';
+import * as pb_funds_data from '../../unitTrustFundsData/merged_pb_funds_data.json';
+import { UnitTrustFund } from './entities/unit-trust-fund.entity';
 
 const aiStrategyCache = new NodeCache();
 
@@ -46,7 +47,15 @@ export class AiStrategyService {
     const aiStrategy: AiStrategy = {
       expensesRatio: expensesRatio,
       turnoverRatio: turnoverRatio,
-      unitTrustFundRecommendations,
+      unitTrustFundRecommendations: unitTrustFundRecommendations.map(
+        (fund: any) => {
+          return {
+            ...fund,
+            imageUrl: 'https://via.placeholder.com/150',
+            phsUrl: 'https://via.placeholder.com/150',
+          };
+        },
+      ) as UnitTrustFund[],
     };
 
     return aiStrategy;
