@@ -23,4 +23,7 @@ export class Voucher implements Partial<VoucherPrismaType> {
 
   @Field(() => Date)
   updatedAt: Date;
+
+  @Field(() => String)
+  code: string;
 }

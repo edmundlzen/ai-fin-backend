@@ -7,9 +7,6 @@ export class CreateVoucherInput {
   name: string;
 
   @Field(() => String)
-  url: string;
-
-  @Field(() => String)
   code: string;
 
   @Field(() => String)
