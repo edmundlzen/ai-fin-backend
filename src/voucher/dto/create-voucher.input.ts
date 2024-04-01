@@ -1,5 +1,4 @@
 import { InputType, Field, Int } from '@nestjs/graphql';
-import { $Enums } from '@prisma/client';
 
 @InputType()
 export class CreateVoucherInput {
@@ -14,4 +13,7 @@ export class CreateVoucherInput {
 
   @Field(() => Int)
   levelRequired: number;
+
+  @Field(() => String)
+  imageUrl: string;
 }
