@@ -80,14 +80,12 @@ export class VoucherService {
   }
 
   async remove(id: string) {
-    await this.prisma.voucher.delete({
+    const removedVoucher = await this.prisma.voucher.delete({
       where: {
         id,
       },
     });
 
-    return {
-      success: true,
-    };
+    return removedVoucher;
   }
 }
