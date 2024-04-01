@@ -11,7 +11,7 @@ import { SuccessResult } from 'src/task/entities/success-result.entity';
 export class VoucherResolver {
   constructor(private readonly VoucherService: VoucherService) {}
 
-  @Query(() => [Voucher], { name: 'Voucher' })
+  @Query(() => [Voucher], { name: 'voucher' })
   findAll() {
     return this.VoucherService.findAll();
   }
