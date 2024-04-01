@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
+import { CreateVoucherInput } from './dto/create-voucher.input';
+import { UpdateVoucherInput } from './dto/update-voucher.input';
 
 @Injectable()
 export class VoucherService {
@@ -50,6 +52,37 @@ export class VoucherService {
             voucherId: voucher.id,
           },
         },
+      },
+    });
+
+    return {
+      success: true,
+    };
+  }
+
+  async create(createVoucherInput: CreateVoucherInput) {
+    const voucher = await this.prisma.voucher.create({
+      data: createVoucherInput,
+    });
+
+    return voucher;
+  }
+
+  async update(updateVoucherInput: UpdateVoucherInput) {
+    const voucher = await this.prisma.voucher.update({
+      where: {
+        id: updateVoucherInput.id,
+      },
+      data: updateVoucherInput,
+    });
+
+    return voucher;
+  }
+
+  async remove(id: string) {
+    await this.prisma.voucher.delete({
+      where: {
+        id,
       },
     });
 
