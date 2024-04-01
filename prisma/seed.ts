@@ -107,14 +107,6 @@ const seedVouchers = async () => {
   });
 };
 
-const deleteAdminAccounts = async () => {
-  await prisma.user.deleteMany({
-    where: {
-      account_type: 'ADMIN',
-    },
-  });
-};
-
 const seedAdminAccount = async () => {
   await prisma.user.create({
     data: {
@@ -238,16 +230,12 @@ const main = async () => {
   console.log('Seeding vouchers');
   await seedVouchers();
   console.log('Seeded vouchers');
-  console.log('Deleting admin accounts');
-  await deleteAdminAccounts();
-  console.log('Deleted admin accounts');
-  console.log('Seeding admin account');
-  await seedAdminAccount();
-  console.log('Seeded admin account');
   console.log('Seeding users');
   await seedUsers();
   console.log('Seeded users');
-
+  console.log('Seeding admin account');
+  await seedAdminAccount();
+  console.log('Seeded admin account');
   console.log('Seeding completed');
 };
 
