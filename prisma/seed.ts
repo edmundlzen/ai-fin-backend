@@ -1,5 +1,27 @@
-import { PrismaClient, Task, TaskTiming, TaskType } from '@prisma/client';
+import {
+  $Enums,
+  PrismaClient,
+  Task,
+  TaskTiming,
+  TaskType,
+} from '@prisma/client';
 import * as bcrypt from 'bcrypt';
+import { faker } from '@faker-js/faker';
+import { randomUUID } from 'crypto';
+import * as dayjs from 'dayjs';
+
+function getRandomEnumValue<T>(anEnum: T): T[keyof T] {
+  //save enums inside array
+  const enumValues = Object.keys(anEnum as object) as Array<keyof T>;
+
+  //Generate a random index (max is array length)
+  const randomIndex = Math.floor(Math.random() * enumValues.length);
+  // get the random enum value
+
+  const randomEnumKey = enumValues[randomIndex];
+  return anEnum[randomEnumKey];
+  // if you want to have the key than return randomEnumKey
+}
 
 const prisma = new PrismaClient();
 
@@ -112,12 +134,121 @@ const seedAdminAccount = async () => {
   });
 };
 
+const seedUsers = async () => {
+  await prisma.user.deleteMany({});
+  const fakeUserCount = 30;
+  const fakeWalletIds = Array.from({ length: fakeUserCount }).map(() =>
+    randomUUID(),
+  );
+  await prisma.wallet.createMany({
+    data: fakeWalletIds.map((id) => ({
+      id,
+    })),
+  });
+  const passwordHash = await bcrypt.hash('password', 10);
+
+  const fakeUserIds = Array.from({ length: fakeUserCount }).map(() =>
+    randomUUID(),
+  );
+  await prisma.user.createMany({
+    data: Array.from({ length: fakeUserCount }).map((_, i) => ({
+      id: fakeUserIds[i],
+      email: faker.internet.email(),
+      password_hash: passwordHash,
+      username: faker.internet.userName(),
+      phone: faker.phone.number(),
+      birth_year: 1990,
+      wallet_id: fakeWalletIds[i],
+    })),
+  });
+
+  await prisma.userInfo.createMany({
+    data: fakeUserIds.map((id) => ({
+      userId: id,
+      annual_income: getRandomEnumValue($Enums.AnnualIncome),
+      estimated_liabilities: getRandomEnumValue($Enums.EstimatedLiabilities),
+      estimated_monthly_expenses: getRandomEnumValue(
+        $Enums.EstimatedMonthlyExpenses,
+      ),
+      invested_before: Math.random() < 0.5,
+      risk_tolerance: getRandomEnumValue($Enums.RiskTolerance),
+      expected_annual_return: getRandomEnumValue($Enums.ExpectedAnnualReturn),
+      investment_horizon: getRandomEnumValue($Enums.InvestmentHorizon),
+    })),
+  });
+
+  const fakeFinancialGoalIds = Array.from({ length: fakeUserCount }).map(() =>
+    randomUUID(),
+  );
+
+  await prisma.financialGoal.createMany({
+    data: fakeUserIds.map((id, i) => ({
+      id: fakeFinancialGoalIds[i],
+      userId: id,
+      emoji: 'curling-stone',
+      name: faker.lorem.words(),
+      amount: Math.min(1000, Math.floor(Math.random() * 10000)),
+      months_to_reach_goal: Math.floor(Math.random() * 12),
+    })),
+  });
+
+  //Generate fake activity data for last 12 months
+  Array.from({ length: 12 }).forEach(async (_, i) => {
+    const date = dayjs()
+      .subtract(i - 1, 'month')
+      .toDate();
+
+    await prisma.transaction.createMany({
+      data: fakeUserIds.map((id, i) => ({
+        wallet_id: fakeWalletIds[i],
+        amount: Math.random() * 1000,
+        financial_goal_id: fakeFinancialGoalIds[i],
+        createdAt: date,
+        updatedAt: date,
+      })),
+    });
+
+    await prisma.userActiveForMonth.createMany({
+      data: fakeUserIds
+        .map((id) => {
+          if (Math.random() < 0.7) return null;
+          return {
+            userId: id,
+            month: dayjs(date).get('month') + 1,
+            year: dayjs(date).get('year'),
+          };
+        })
+        .filter((x) => x) as {
+        userId: string;
+        month: number;
+        year: number;
+      }[],
+    });
+  });
+};
+
 const main = async () => {
+  console.log('Seeding database...');
+  console.log('Clearing completed tasks');
   await clearCompletedTasks();
+  console.log('Cleared completed tasks');
+  console.log('Seeding tasks');
   await seedTasks();
+  console.log('Seeded tasks');
+  console.log('Seeding vouchers');
   await seedVouchers();
+  console.log('Seeded vouchers');
+  console.log('Deleting admin accounts');
   await deleteAdminAccounts();
+  console.log('Deleted admin accounts');
+  console.log('Seeding admin account');
   await seedAdminAccount();
+  console.log('Seeded admin account');
+  console.log('Seeding users');
+  await seedUsers();
+  console.log('Seeded users');
+
+  console.log('Seeding completed');
 };
 
 main()
